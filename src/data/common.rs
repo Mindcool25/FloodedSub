@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use crate::data::response_enum::{into_response_enum, ResponseEnum};
+use crate::data::response_enum::{ResponseEnum, ToResponseEnum, into_response_enum};
 use crate::{SERVER_NAME, SERVER_VERSION, SUPPORTED_VERSION};
 use crate::data::info::{License, OpenSubsonicExtensionList};
 
@@ -7,7 +7,7 @@ use crate::data::info::{License, OpenSubsonicExtensionList};
 #[derive(Serialize)]
 pub struct SubsonicResponseWrapper<T>
 where
-    T: Into<ResponseEnum> + Clone
+    T: ToResponseEnum
 {
     #[serde(rename = "subsonic-response")]
     pub response: SubsonicResponse<T>,
@@ -17,7 +17,7 @@ where
 #[derive(Deserialize, Serialize)]
 pub struct SubsonicResponse<T>
 where
-    T: Into<ResponseEnum> + Clone
+    T: ToResponseEnum
 {
     /// `"ok"` or `"failed"`.
     pub status: String,
@@ -47,7 +47,7 @@ where
 
 impl<T> SubsonicResponse<T>
 where
-    T: Into<ResponseEnum> + Clone
+    T: ToResponseEnum
 {
     pub fn resp(self) -> SubsonicResponseWrapper<T> {
         SubsonicResponseWrapper { response: self }

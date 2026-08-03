@@ -64,7 +64,7 @@ The main thing that this software aims to do is create a bit more of a secure wa
 ## Database schema
 Everything is optionl unless specified. Optional should always be an empty or default value.
 ### Tables
-- Media
+- Media  
 Based off of https://opensubsonic.netlify.app/docs/responses/child/
     * id: str (req)
     * parent: str
@@ -112,7 +112,7 @@ Based off of https://opensubsonic.netlify.app/docs/responses/child/
     * albumPeak: num |
     * baseGain: num  |
 
-- Albums
+- Albums  
 Based off of https://opensubsonic.netlify.app/docs/responses/albumid3/
     * id: str (req)
     * name: str (req)
@@ -138,7 +138,7 @@ Based off of https://opensubsonic.netlify.app/docs/responses/albumid3/
     * originalReleaseDate: str (date)
     * explicit status: str ("explicit", "clean" or "")
 
-- Artist
+- Artist  
 based off of https://opensubsonic.netlify.app/docs/responses/artistid3/
     * id: str (req)
     * name: str (req)
@@ -149,7 +149,7 @@ based off of https://opensubsonic.netlify.app/docs/responses/artistid3/
     * musicBrainzId: str
     * sortName: str
 
-- Playlists
+- Playlists  
 based off of navidrome's playlist storage
     * id: str (req)
     * name: str (req)
@@ -164,11 +164,11 @@ based off of navidrome's playlist storage
     * allowedUser: list of user IDs (maybe?)
     * readonly: bool (true if the playlist cannot be edited by current user)
 
-- PlaylistTracks
+- PlaylistTracks  
     * playlistId: key (req)
     * mediaId: key (req)
 
-- user
+- user  
 based off of https://opensubsonic.netlify.app/docs/responses/user/
     * id: str (req)
     * username: str (req)
@@ -189,11 +189,11 @@ based off of https://opensubsonic.netlify.app/docs/responses/user/
     * videoConversionRole: bool (req)
     * avatarLastChanged: str (date)
 
-- ClientKeys
+- ClientKeys  
     * userId: str (req)
     * key: str (req, hashed) - Used for opensubsonic authentication, randomly generated
 
-- Annotations
+- Annotations  
 based off of how navidrome does these
     * userId: str (req)
     * itemId: str (req)

@@ -3,6 +3,14 @@ use crate::data::response_enum::{ResponseEnum, ToResponseEnum, into_response_enu
 use crate::{SERVER_NAME, SERVER_VERSION, SUPPORTED_VERSION};
 use crate::data::info::{License, OpenSubsonicExtensionList};
 
+// Represents a subsonic status (ok or failed)
+#[derive(Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum SubsonicStatus {
+    Ok,
+    Failed,
+}
+
 // Response wrapper
 #[derive(Serialize)]
 pub struct SubsonicResponseWrapper<T>
@@ -20,7 +28,7 @@ where
     T: ToResponseEnum
 {
     /// `"ok"` or `"failed"`.
-    pub status: String,
+    pub status: SubsonicStatus,
     /// Protocol version echoed by the server.
     #[serde(default)]
     #[allow(dead_code)]
@@ -57,7 +65,7 @@ where
 impl SubsonicResponse<()> {
     pub fn new() -> Self {
         SubsonicResponse {
-            status: "ok".to_string(),
+            status: SubsonicStatus::Ok,
             version: Some(SUPPORTED_VERSION.to_string()),
             server_type: Some(SERVER_NAME.to_string()),
             server_version: Some(SERVER_VERSION.to_string()),
@@ -71,7 +79,7 @@ impl SubsonicResponse<()> {
 impl SubsonicResponse<OpenSubsonicExtensionList> {
     pub fn new() -> Self {
         SubsonicResponse {
-            status: "ok".to_string(),
+            status: SubsonicStatus::Ok,
             version: Some(SUPPORTED_VERSION.to_string()),
             server_type: Some(SERVER_NAME.to_string()),
             server_version: Some(SERVER_VERSION.to_string()),
@@ -85,7 +93,7 @@ impl SubsonicResponse<OpenSubsonicExtensionList> {
 impl SubsonicResponse<License> {
     pub fn new() -> Self {
         SubsonicResponse {
-            status: "ok".to_string(),
+            status: SubsonicStatus::Ok,
             version: Some(SUPPORTED_VERSION.to_string()),
             server_type: Some(SERVER_NAME.to_string()),
             server_version: Some(SERVER_VERSION.to_string()),

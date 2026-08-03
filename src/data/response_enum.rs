@@ -9,23 +9,32 @@ pub enum ResponseEnum {
     Unit,
 }
 
+macro_rules! impl_into_response_enum {
+    {$resp:ident} => {
+        impl From<$resp> for ResponseEnum {
+            fn from(value: $resp) -> Self {
+                ResponseEnum::$resp(value)
+            }
+        }
+    };
+
+    {$resp:ty as $tag:ident} => {
+        impl From<$resp> for ResponseEnum {
+            fn from(value: $resp) -> Self {
+                ResponseEnum::$tag(value)
+            }
+        }
+    };
+}
+
 impl Into<ResponseEnum> for () {
     fn into(self) -> ResponseEnum {
         ResponseEnum::Unit
     }
 }
 
-impl Into<ResponseEnum> for License {
-    fn into(self) -> ResponseEnum {
-        ResponseEnum::License(self)
-    }
-}
-
-impl Into<ResponseEnum> for OpenSubsonicExtensionList{
-    fn into(self) -> ResponseEnum {
-        ResponseEnum::OpenSubsonicExtensions(self)
-    }
-}
+impl_into_response_enum!{License}
+impl_into_response_enum!{OpenSubsonicExtensionList as OpenSubsonicExtensions}
 
 pub fn into_response_enum<T, S>(value: &Option<T>, serializer: S) -> Result<S::Ok, S::Error>
 where

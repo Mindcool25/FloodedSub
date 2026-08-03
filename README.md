@@ -2,6 +2,11 @@
 Flooded Submarine is (intended) to be a lightweight OpenSubsonic server written in rust.
 The main thing that this software aims to do is create a bit more of a secure way of accessing a subsonic server. The users can get an "API key", which is just used as the password for the subsonic server, while being able to have authentication done by stronger methods (hopefully including OIDC)
 
+## Features (and plans)
+transcoding will be done by just calling the `ffmpeg` command line tool for now until there is a reason to not do that
+
+Use lofty for metadata extraction
+
 ## Types
 ### Child (usually song)
 - id (required)

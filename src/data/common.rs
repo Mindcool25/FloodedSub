@@ -1,17 +1,24 @@
 use serde::{Deserialize, Serialize};
+use crate::data::response_enum::{into_response_enum, ResponseEnum};
 use crate::{SERVER_NAME, SERVER_VERSION, SUPPORTED_VERSION};
 use crate::data::info::{License, OpenSubsonicExtensionList};
 
 // Response wrapper
 #[derive(Serialize)]
-pub struct SubsonicResponseWrapper<T> {
+pub struct SubsonicResponseWrapper<T>
+where
+    T: Into<ResponseEnum> + Clone
+{
     #[serde(rename = "subsonic-response")]
     pub response: SubsonicResponse<T>,
 }
 
 /// The contents of the `"subsonic-response"` object.
 #[derive(Deserialize, Serialize)]
-pub struct SubsonicResponse<T> {
+pub struct SubsonicResponse<T>
+where
+    T: Into<ResponseEnum> + Clone
+{
     /// `"ok"` or `"failed"`.
     pub status: String,
     /// Protocol version echoed by the server.
@@ -34,11 +41,14 @@ pub struct SubsonicResponse<T> {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub error: Option<ApiErrorResponse>,
     /// All remaining fields (the actual endpoint-specific data).
-    #[serde(flatten)]
+    #[serde(flatten, serialize_with = "into_response_enum")]
     pub data: Option<T>,
 }
 
-impl<T> SubsonicResponse<T> {
+impl<T> SubsonicResponse<T>
+where
+    T: Into<ResponseEnum> + Clone
+{
     pub fn resp(self) -> SubsonicResponseWrapper<T> {
         SubsonicResponseWrapper { response: self }
     }

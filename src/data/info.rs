@@ -1,27 +1,24 @@
 use serde::{Deserialize, Serialize};
 
-
 /// License information.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum License {
-    License {
-        /// Whether the license is valid.
-        valid: bool,
-        /// User email.
-        #[serde(skip_serializing_if = "Option::is_none")]
-        email: Option<String>,
-        /// License expiration date (ISO 8601).
-        #[serde(skip_serializing_if = "Option::is_none")]
-        license_expires: Option<String>,
-        /// Trial expiration date (ISO 8601).
-        #[serde(skip_serializing_if = "Option::is_none")]
-        trial_expires: Option<String>,
-    }
+#[serde(rename = "licence", rename_all = "camelCase")]
+pub struct License {
+    /// Whether the license is valid.
+    valid: bool,
+    /// User email.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    email: Option<String>,
+    /// License expiration date (ISO 8601).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    license_expires: Option<String>,
+    /// Trial expiration date (ISO 8601).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    trial_expires: Option<String>,
 }
 impl License {
     pub fn default() -> Self {
-        License::License {
+        License {
             valid: true,
             email: None,
             license_expires: None,
@@ -30,7 +27,7 @@ impl License {
     }
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct OpenSubsonicExtension {
     /// Extension name.
@@ -39,17 +36,15 @@ pub struct OpenSubsonicExtension {
     pub versions: Vec<i32>,
 }
 
-#[derive(Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub enum OpenSubsonicExtensionList {
-    OpenSubsonicExtensionList {
-        // Vec of extensions
-        open_subsonic_extensions: Vec<OpenSubsonicExtension>,
-    }
+#[derive(Clone, Deserialize, Serialize)]
+#[serde(transparent, rename_all = "camelCase")]
+pub struct OpenSubsonicExtensionList {
+    // Vec of extensions
+    open_subsonic_extensions: Vec<OpenSubsonicExtension>,
 }
 
 impl OpenSubsonicExtensionList {
     pub fn empty() -> Self {
-        OpenSubsonicExtensionList::OpenSubsonicExtensionList { open_subsonic_extensions: Vec::new() }
+        OpenSubsonicExtensionList { open_subsonic_extensions: Vec::new() }
     }
 }

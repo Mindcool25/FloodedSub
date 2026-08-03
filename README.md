@@ -7,6 +7,53 @@ transcoding will be done by just calling the `ffmpeg` command line tool for now 
 
 Use lofty for metadata extraction
 
+## TODOs:
+- [ ] Finish writing intial database schema
+- [ ] OpenSubsonic implementation (MVP)  
+    Note: I think these are the main things require to get a client mostly able to see what is going on  
+    I'm not sure if the ones with 2 at the end are required, or the ones without are either. who knows
+    - [ ] download
+    - [ ] getAlbum
+    - [ ] getAlbumInfo
+    - [ ] getAlbumInfo2
+    - [ ] getAlbumList
+    - [ ] getAlbumList2
+    - [ ] getArtist
+    - [ ] getArtistInfo
+    - [ ] getArtistInfo2
+    - [ ] getArtists
+    - [ ] getCoverArt
+    - [ ] getGenres (might be worth adding a genre database table?)
+    - [ ] getMusicDirectory
+    - [ ] getMusicFolders
+    - [ ] getPlayQueue
+    - [ ] getPlaylist
+    - [ ] getPlaylists
+    - [ ] getSong
+    - [ ] getStarred
+    - [ ] getStarred2
+    - [ ] getUser
+    - [ ] savePlayQueue (if queue is required to get things to work)
+    - [ ] scrobble
+    - [ ] search
+    - [ ] search2
+    - [ ] search3
+    - [ ] star
+    - [ ] startScan
+    - [ ] stream
+    - [ ] unstar
+    - [X] license
+    - [X] ping
+- [ ] OIDC implementation  
+    This is mostly going to be research on what needs to happen, more items will be here probably
+- [ ] Scanning files
+    - [ ] Scan through all files, reading metadata
+    - [ ] adding files to the database
+    - [ ] making sure the database isn't messed up
+- [ ] Brainstorm extra API endpoints that are not part of the OpenSubsonic spec
+- [ ] once everything mostly works, finish implementing opensubsonic
+- [ ] frontend?
+
 ## Types
 ### Child (usually song)
 - id (required)
@@ -193,10 +240,14 @@ based off of https://opensubsonic.netlify.app/docs/responses/user/
     * shareRole: bool (req)
     * videoConversionRole: bool (req)
     * avatarLastChanged: str (date)
+    * created: str (req, date)
+    * accessed: str (date)
 
 - ClientKeys  
     * userId: str (req)
     * key: str (req, hashed) - Used for opensubsonic authentication, randomly generated
+    * created: str (req, date)
+    * accessed: str (date)
 
 - Annotations  
 based off of how navidrome does these

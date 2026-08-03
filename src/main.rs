@@ -27,7 +27,6 @@ fn get_license() -> Json<SubsonicResponseWrapper<License>> {
 }
 
 
-
 #[launch]
 fn rocket() -> _ {
     rocket::build()
